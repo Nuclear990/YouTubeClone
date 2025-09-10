@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>To-Do</title>
+    <style>
+        * {
+            font-size: 20px;
+        }
+
+        p {
+            display: inline-block;
+            padding: 10px 20px 10px 20px;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            overflow-wrap: break-word;  
+        }
+
+        input {
+            margin-right: 13px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 13px 10px 13px 10px;
+            border: solid;
+            border-color: rgb(200, 200, 200);
+            border-width: 2px;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 15px 45px 15px 45px;
+            color: white;
+            border: none;
+        }
+
+        .add {
+            background-color: rgb(6, 149, 6);
+        }
+
+        .delete {
+            background-color: brown;
+            padding-left: 0px;
+            padding-right: 0px;
+        }
+
+        div {
+            display: grid;
+            grid-template-columns: 290px 214px 126px;
+            row-gap: 10px;
+            column-gap: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <p>Todo List</p> -->
+    <input class="activity" type="text" placeholder="Todo name" onkeydown="if(event.key === 'Enter') addTodo()">
+    <input class="date" type="date" onkeydown="if(event.key === 'Enter') addTodo();">
+    <button class="add" onclick="addTodo()">Add</button>
+    <div class="todo-container"></div>
+
+    <script>
+        let todoList = [];
+        function addTodo() {
+            let date = document.querySelector('.date').value;
+            let task = document.querySelector('.activity').value;
+            if (!date || !task) return;
+
+            todoList.push([task, date]);
+
+            renderTodo();
+
+            document.querySelector('input').value = "";
+        }
+        function renderTodo() {
+            let todoListHTML = "";
+            todoList.forEach (function(val, i) {
+                todoListHTML +=
+                    `
+                        <p>${val[0]}</p>
+                        <p>${val[1]}</p>
+                        <button class="delete" onclick="todoList.splice(${i}, 1); renderTodo();">Delete</button>
+                    `
+            });
+            document.querySelector('.todo-container').innerHTML = todoListHTML;
+        }
+    </script>
+</body>
+
+</html>
